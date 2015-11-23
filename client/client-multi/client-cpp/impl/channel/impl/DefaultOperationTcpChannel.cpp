@@ -47,6 +47,9 @@ const std::uint16_t DefaultOperationTcpChannel::RECONNECT_TIMEOUT = 5; // sec
 const std::uint32_t DefaultOperationTcpChannel::KAA_PLATFORM_PROTOCOL_AVRO_ID = 0xf291f2d4;
 
 const std::string DefaultOperationTcpChannel::CHANNEL_ID = "default_operation_kaa_tcp_channel";
+
+const std::map<TransportType, ChannelDirection> DefaultOperationTcpChannel::SUPPORTED_TYPES = initSupportedTypes();
+/*
 const std::map<TransportType, ChannelDirection> DefaultOperationTcpChannel::SUPPORTED_TYPES =
         {
                 { TransportType::PROFILE, ChannelDirection::BIDIRECTIONAL },
@@ -56,7 +59,20 @@ const std::map<TransportType, ChannelDirection> DefaultOperationTcpChannel::SUPP
                 { TransportType::EVENT, ChannelDirection::BIDIRECTIONAL },
                 { TransportType::LOGGING, ChannelDirection::BIDIRECTIONAL }
         };
+*/
+std::map<TransportType, ChannelDirection> DefaultOperationTcpChannel::initSupportedTypes()
+{
+    std::map<TransportType, ChannelDirection> supportedTypes;
 
+    supportedTypes.insert(std::make_pair(TransportType::PROFILE, ChannelDirection::BIDIRECTIONAL));
+    supportedTypes.insert(std::make_pair(TransportType::CONFIGURATION, ChannelDirection::BIDIRECTIONAL));
+    supportedTypes.insert(std::make_pair(TransportType::NOTIFICATION, ChannelDirection::BIDIRECTIONAL));
+    supportedTypes.insert(std::make_pair(TransportType::USER, ChannelDirection::BIDIRECTIONAL));
+    supportedTypes.insert(std::make_pair(TransportType::EVENT, ChannelDirection::BIDIRECTIONAL));
+    supportedTypes.insert(std::make_pair(TransportType::LOGGING, ChannelDirection::BIDIRECTIONAL));
+
+    return supportedTypes;
+}
 
 DefaultOperationTcpChannel::DefaultOperationTcpChannel(IKaaChannelManager *channelManager, const KeyPair& clientKeys, IKaaClientStateStoragePtr clientState)
     : clientKeys_(clientKeys), work_(io_), socketWork_(socketIo_),/*sock_(io_), */pingTimer_(io_), connAckTimer_(io_)/*, reconnectTimer_(io_)*/, retryTimer_("DefaultOperationTcpChannel retryTimer")

@@ -108,7 +108,9 @@ void AbstractHttpChannel::sync(TransportType type)
         KAA_MUTEX_UNIQUE_DECLARE(lock, channelGuard_);
         KAA_MUTEX_LOCKED("channelGuard_");
         if (currentServer_) {
-            processTypes(std::map<TransportType, ChannelDirection>({ { type, it->second } })
+            std::map<TransportType, ChannelDirection> types;
+            types.insert(std::make_pair(type, it->second));
+            processTypes(types
 #ifdef KAA_THREADSAFE
                        , lock
 #endif

@@ -26,18 +26,18 @@ const std::size_t DefaultFailoverStrategy::DEFAULT_NO_CONNECTIVITY_RETRY_PERIOD;
 
 FailoverStrategyDecision DefaultFailoverStrategy::onFailover(Failover failover)
 {
-	switch (failover) {
+    switch (failover) {
         case Failover::BOOTSTRAP_SERVERS_NA:
-			return FailoverStrategyDecision(FailoverStrategyAction::RETRY, bootstrapServersRetryPeriod_);
+            return FailoverStrategyDecision(FailoverStrategyAction::RETRY, bootstrapServersRetryPeriod_);
         case Failover::NO_OPERATION_SERVERS_RECEIVED:
             return FailoverStrategyDecision(FailoverStrategyAction::USE_NEXT_BOOTSTRAP, noOperationServersRetryPeriod_);
         case Failover::OPERATION_SERVERS_NA:
             return FailoverStrategyDecision(FailoverStrategyAction::RETRY, operationServersRetryPeriod_);
-		case Failover::NO_CONNECTIVITY:
-			return FailoverStrategyDecision(FailoverStrategyAction::RETRY, noConnectivityRetryPeriod_);
-		default:
-			return FailoverStrategyDecision(FailoverStrategyAction::NOOP);
-	}
+        case Failover::NO_CONNECTIVITY:
+            return FailoverStrategyDecision(FailoverStrategyAction::RETRY, noConnectivityRetryPeriod_);
+        default:
+            return FailoverStrategyDecision(FailoverStrategyAction::NOOP);
+    }
 }
 
 }

@@ -28,6 +28,9 @@
 namespace kaa {
 
 const std::string DefaultOperationLongPollChannel::CHANNEL_ID = "default_operations_long_poll_channel";
+
+const std::map<TransportType, ChannelDirection> DefaultOperationLongPollChannel::SUPPORTED_TYPES = initSupportedTypes();
+/*
 const std::map<TransportType, ChannelDirection> DefaultOperationLongPollChannel::SUPPORTED_TYPES =
         {
                 { TransportType::PROFILE, ChannelDirection::BIDIRECTIONAL },
@@ -36,6 +39,20 @@ const std::map<TransportType, ChannelDirection> DefaultOperationLongPollChannel:
                 { TransportType::USER, ChannelDirection::BIDIRECTIONAL },
                 { TransportType::EVENT, ChannelDirection::DOWN }
         };
+*/
+
+std::map<TransportType, ChannelDirection> DefaultOperationLongPollChannel::initSupportedTypes()
+{
+    std::map<TransportType, ChannelDirection> supportedTypes;
+
+    supportedTypes.insert(std::make_pair(TransportType::PROFILE, ChannelDirection::BIDIRECTIONAL));
+    supportedTypes.insert(std::make_pair(TransportType::CONFIGURATION, ChannelDirection::BIDIRECTIONAL));
+    supportedTypes.insert(std::make_pair(TransportType::NOTIFICATION, ChannelDirection::BIDIRECTIONAL));
+    supportedTypes.insert(std::make_pair(TransportType::USER, ChannelDirection::BIDIRECTIONAL));
+    supportedTypes.insert(std::make_pair(TransportType::EVENT, ChannelDirection::DOWN));
+
+    return supportedTypes;
+}
 
 DefaultOperationLongPollChannel::DefaultOperationLongPollChannel(IKaaChannelManager *channelManager, const KeyPair& clientKeys)
     : clientKeys_(clientKeys), work_(io_), pollThread_()

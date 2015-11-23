@@ -86,6 +86,8 @@ private:
     void executeTask();
     void doShutdown();
 
+	static std::map<TransportType, ChannelDirection> initSupportedTypes();
+	
 private:
     static const std::string CHANNEL_ID;
     static const std::map<TransportType, ChannelDirection> SUPPORTED_TYPES;

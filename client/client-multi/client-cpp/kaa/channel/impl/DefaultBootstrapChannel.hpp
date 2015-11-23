@@ -48,6 +48,8 @@ private:
     virtual ServerType getServerType() const {
         return ServerType::BOOTSTRAP;
     }
+	
+	static std::map<TransportType, ChannelDirection> initSupportedTypes();
 
 protected:
     virtual std::string getURLSuffix() {

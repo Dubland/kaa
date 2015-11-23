@@ -89,7 +89,7 @@ public:
         for (auto& pair : slots_) {
             try {
                 pair.second(std::forward<Args>(args)...);
-            } catch (...) {
+            } catch (const std::exception& e) {
             }
         }
         isNotifying_ = false;

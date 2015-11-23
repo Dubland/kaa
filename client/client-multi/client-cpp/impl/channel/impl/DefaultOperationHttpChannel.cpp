@@ -37,11 +37,25 @@
 namespace kaa {
 
 const std::string DefaultOperationHttpChannel::CHANNEL_ID = "default_operation_http_channel";
+
+const std::map<TransportType, ChannelDirection> DefaultOperationHttpChannel::SUPPORTED_TYPES = initSupportedTypes();
+/*
 const std::map<TransportType, ChannelDirection> DefaultOperationHttpChannel::SUPPORTED_TYPES =
         {
                 { TransportType:: EVENT, ChannelDirection::UP },
                 { TransportType:: LOGGING, ChannelDirection::UP },
         };
+*/
+
+std::map<TransportType, ChannelDirection> DefaultOperationHttpChannel::initSupportedTypes()
+{
+    std::map<TransportType, ChannelDirection> supportedTypes;
+
+    supportedTypes.insert(std::make_pair(TransportType::EVENT, ChannelDirection::UP));
+    supportedTypes.insert(std::make_pair(TransportType::LOGGING, ChannelDirection::UP));
+
+    return supportedTypes;
+}
 
 }
 

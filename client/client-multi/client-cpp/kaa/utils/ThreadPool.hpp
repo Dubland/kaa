@@ -50,11 +50,11 @@ private:
     void stop(bool force);
 
 private:
-    bool isRun_ = true;
-    bool isPendingShutdown_ = false;
+    bool isRun_/* = true*/;
+    bool isPendingShutdown_/* = false*/;
 
     std::list<std::thread>    workers_;
-    std::size_t               workerCount_ = 0;
+    std::size_t               workerCount_/* = 0*/;
 
     std::list<ThreadPoolTask>    tasks_;
 

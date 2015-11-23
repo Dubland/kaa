@@ -51,6 +51,17 @@ namespace kaa {
  */
 class DefaultLogUploadStrategy: public ILogUploadStrategy {
 public:
+	DefaultLogUploadStrategy() : 
+		batchSize_(DEFAULT_BATCH_SIZE), 
+		recordsBatchCount_(DEFAULT_RECORDS_BATCH_COUNT),
+		uploadTimeout_(DEFAULT_UPLOAD_TIMEOUT),
+		retryReriod_(DEFAULT_RETRY_PERIOD),
+		timeoutCheckPeriod_(DEFAULT_TIMEOUT_CHECK_PERIOD),
+		logUploadCheckReriod_(DEFAULT_LOG_UPLOAD_CHECK_PERIOD),
+		uploadVolumeThreshold_(DEFAULT_UPLOAD_VOLUME_THRESHOLD),
+		uploadCountThreshold_(DEFAULT_UPLOAD_COUNT_THRESHOLD)
+		{}
+
     virtual LogUploadStrategyDecision isUploadNeeded(ILogStorageStatus& status);
 
     virtual void onTimeout(ILogFailoverCommand& controller);
@@ -104,19 +115,19 @@ public:
                                                                        the log upload. */
 
 protected:
-    std::size_t batchSize_ = DEFAULT_BATCH_SIZE;
+    std::size_t batchSize_/* = DEFAULT_BATCH_SIZE*/;
 
-    std::size_t recordsBatchCount_ = DEFAULT_RECORDS_BATCH_COUNT;
+    std::size_t recordsBatchCount_/* = DEFAULT_RECORDS_BATCH_COUNT*/;
 
-    std::size_t uploadTimeout_ = DEFAULT_UPLOAD_TIMEOUT;
-    std::size_t retryReriod_ = DEFAULT_RETRY_PERIOD;
+    std::size_t uploadTimeout_/* = DEFAULT_UPLOAD_TIMEOUT*/;
+    std::size_t retryReriod_/* = DEFAULT_RETRY_PERIOD*/;
 
-    std::size_t timeoutCheckPeriod_ = DEFAULT_TIMEOUT_CHECK_PERIOD;
+    std::size_t timeoutCheckPeriod_/* = DEFAULT_TIMEOUT_CHECK_PERIOD*/;
 
-    std::size_t logUploadCheckReriod_ = DEFAULT_LOG_UPLOAD_CHECK_PERIOD;
+    std::size_t logUploadCheckReriod_/* = DEFAULT_LOG_UPLOAD_CHECK_PERIOD*/;
 
-    std::size_t uploadVolumeThreshold_ = DEFAULT_UPLOAD_VOLUME_THRESHOLD;
-    std::size_t uploadCountThreshold_ = DEFAULT_UPLOAD_COUNT_THRESHOLD;
+    std::size_t uploadVolumeThreshold_/* = DEFAULT_UPLOAD_VOLUME_THRESHOLD*/;
+    std::size_t uploadCountThreshold_/* = DEFAULT_UPLOAD_COUNT_THRESHOLD*/;
 
 private:
     typedef std::chrono::system_clock Clock;

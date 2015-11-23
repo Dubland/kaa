@@ -27,10 +27,21 @@ namespace kaa {
 const MemoryLogStorage::BlockId MemoryLogStorage::NO_OWNER(-1);
 
 MemoryLogStorage::MemoryLogStorage()
-    : recordBlockId_(0) {}
+    : recordBlockId_(0),
+      totalOccupiedSize_(0),
+	  occupiedSizeOfUnmarkedRecords_(0),
+	  unmarkedRecordCount_(0),
+	  maxOccupiedSize_(0),
+	  shrinkedSize_(0)
+	{}
 
 MemoryLogStorage::MemoryLogStorage(size_t maxOccupiedSize, float percentToDelete)
-    : recordBlockId_(0)
+    : recordBlockId_(0),
+	  totalOccupiedSize_(0),
+	  occupiedSizeOfUnmarkedRecords_(0),
+	  unmarkedRecordCount_(0),
+	  maxOccupiedSize_(0),
+	  shrinkedSize_(0)
 {
     if (0.0 >= percentToDelete || percentToDelete > 100.0) {
         KAA_LOG_ERROR(boost::format("Failed to create limited log storage: max_size %1%, percentToDelete %2%%%")

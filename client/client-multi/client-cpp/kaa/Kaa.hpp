@@ -52,7 +52,7 @@ public:
      *
      * @return New instance of Kaa client.
      */
-    static std::shared_ptr<IKaaClient> newClient(IKaaClientPlatformContextPtr context = std::make_shared<KaaClientPlatformContext>()
+    static std::shared_ptr<IKaaClient> newClient(IKaaClientPlatformContextPtr context
                                                , IKaaClientStateListenerPtr listener = IKaaClientStateListenerPtr());
 
     /**

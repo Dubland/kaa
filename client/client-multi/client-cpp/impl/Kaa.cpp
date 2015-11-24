@@ -62,8 +62,10 @@ std::shared_ptr<IKaaClient> Kaa::newClient(IKaaClientPlatformContextPtr context
                                          , IKaaClientStateListenerPtr listener)
 {
     if (!context) {
-        throw KaaException("Kaa client platform context is null");
+        context = std::make_shared<KaaClientPlatformContext>();
+        //throw KaaException("Kaa client platform context is null");
     }
+
     return std::shared_ptr<IKaaClient>(new KaaClient(context, listener));
 }
 

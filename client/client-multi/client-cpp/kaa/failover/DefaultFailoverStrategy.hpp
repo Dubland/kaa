@@ -34,11 +34,11 @@ public:
     virtual FailoverStrategyDecision onFailover(Failover failover);
 
 public:
-    static const std::size_t DEFAULT_BOOTSTRAP_SERVERS_RETRY_PERIOD = 2;
-    static const std::size_t DEFAULT_OPERATION_SERVERS_RETRY_PERIOD = 2;
-    static const std::size_t DEFAULT_NO_OPERATION_SERVERS_RETRY_PERIOD = 2;
-    static const std::size_t DEFAULT_CURRENT_BOOTSTRAP_SERVER_NA = 2;
-    static const std::size_t DEFAULT_NO_CONNECTIVITY_RETRY_PERIOD = 5;
+    static const std::size_t DEFAULT_BOOTSTRAP_SERVERS_RETRY_PERIOD/* = 2*/;
+    static const std::size_t DEFAULT_OPERATION_SERVERS_RETRY_PERIOD/* = 2*/;
+    static const std::size_t DEFAULT_NO_OPERATION_SERVERS_RETRY_PERIOD/* = 2*/;
+    static const std::size_t DEFAULT_CURRENT_BOOTSTRAP_SERVER_NA/* = 2*/;
+    static const std::size_t DEFAULT_NO_CONNECTIVITY_RETRY_PERIOD/* = 5*/;
 
 private:
     std::size_t bootstrapServersRetryPeriod_/*   = DEFAULT_BOOTSTRAP_SERVERS_RETRY_PERIOD*/;

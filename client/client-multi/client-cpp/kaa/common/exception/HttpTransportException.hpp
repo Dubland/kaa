@@ -31,10 +31,10 @@ enum HttpStatusCode {
 class HttpTransportException: public TransportException {
 public:
     HttpTransportException(boost::format f)
-        : TransportException(f) {}
+        : TransportException(f), httpStatusCode_(HttpStatusCode::OK) {}
 
     HttpTransportException(const std::string& message)
-        : TransportException(message) {}
+        : TransportException(message), httpStatusCode_(HttpStatusCode::OK) {}
 
     HttpTransportException(std::int32_t statusCode, const std::string& message = std::string(""))
         : TransportException(message), httpStatusCode_(statusCode) {}
@@ -42,7 +42,7 @@ public:
     std::int32_t getHttpStatusCode() { return httpStatusCode_; }
 
 private:
-    std::int32_t httpStatusCode_ = HttpStatusCode::OK;
+    std::int32_t httpStatusCode_/* = HttpStatusCode::OK*/;
 };
 
 } /* namespace kaa */

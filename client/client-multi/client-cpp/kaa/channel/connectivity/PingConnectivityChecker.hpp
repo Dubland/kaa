@@ -17,7 +17,7 @@
 #ifndef PINGCONNECTIVITYCHECKER_HPP_
 #define PINGCONNECTIVITYCHECKER_HPP_
 
-#include <cstring>
+#include <cstdint>
 #include <string>
 
 #include "kaa/channel/connectivity/IConnectivityChecker.hpp"

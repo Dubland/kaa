@@ -23,15 +23,14 @@
 
 namespace kaa {
 
-const std::size_t DefaultLogUploadStrategy::DEFAULT_BATCH_SIZE;
-const std::size_t DefaultLogUploadStrategy::DEFAULT_RECORDS_BATCH_COUNT;
-const std::size_t DefaultLogUploadStrategy::DEFAULT_UPLOAD_TIMEOUT;
-const std::size_t DefaultLogUploadStrategy::DEFAULT_RETRY_PERIOD;
-const std::size_t DefaultLogUploadStrategy::DEFAULT_TIMEOUT_CHECK_PERIOD;
-const std::size_t DefaultLogUploadStrategy::DEFAULT_LOG_UPLOAD_CHECK_PERIOD;
-
-const std::size_t DefaultLogUploadStrategy::DEFAULT_UPLOAD_VOLUME_THRESHOLD;
-const std::size_t DefaultLogUploadStrategy::DEFAULT_UPLOAD_COUNT_THRESHOLD;
+const std::size_t DefaultLogUploadStrategy::DEFAULT_BATCH_SIZE = 8 * 1024;
+const std::size_t DefaultLogUploadStrategy::DEFAULT_RECORDS_BATCH_COUNT = 256;
+const std::size_t DefaultLogUploadStrategy::DEFAULT_UPLOAD_TIMEOUT = 2 * 60;
+const std::size_t DefaultLogUploadStrategy::DEFAULT_TIMEOUT_CHECK_PERIOD = 10;
+const std::size_t DefaultLogUploadStrategy::DEFAULT_LOG_UPLOAD_CHECK_PERIOD = 30;
+const std::size_t DefaultLogUploadStrategy::DEFAULT_RETRY_PERIOD = 5 * 60;
+const std::size_t DefaultLogUploadStrategy::DEFAULT_UPLOAD_VOLUME_THRESHOLD = 8 * 1024;
+const std::size_t DefaultLogUploadStrategy::DEFAULT_UPLOAD_COUNT_THRESHOLD = 64;
 
 LogUploadStrategyDecision DefaultLogUploadStrategy::isUploadNeeded(ILogStorageStatus& status)
 {

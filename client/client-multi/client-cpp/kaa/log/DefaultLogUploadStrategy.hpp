@@ -51,16 +51,16 @@ namespace kaa {
  */
 class DefaultLogUploadStrategy: public ILogUploadStrategy {
 public:
-	DefaultLogUploadStrategy() : 
-		batchSize_(DEFAULT_BATCH_SIZE), 
-		recordsBatchCount_(DEFAULT_RECORDS_BATCH_COUNT),
-		uploadTimeout_(DEFAULT_UPLOAD_TIMEOUT),
-		retryReriod_(DEFAULT_RETRY_PERIOD),
-		timeoutCheckPeriod_(DEFAULT_TIMEOUT_CHECK_PERIOD),
-		logUploadCheckReriod_(DEFAULT_LOG_UPLOAD_CHECK_PERIOD),
-		uploadVolumeThreshold_(DEFAULT_UPLOAD_VOLUME_THRESHOLD),
-		uploadCountThreshold_(DEFAULT_UPLOAD_COUNT_THRESHOLD)
-		{}
+    DefaultLogUploadStrategy() :
+        batchSize_(DEFAULT_BATCH_SIZE),
+        recordsBatchCount_(DEFAULT_RECORDS_BATCH_COUNT),
+        uploadTimeout_(DEFAULT_UPLOAD_TIMEOUT),
+        retryReriod_(DEFAULT_RETRY_PERIOD),
+        timeoutCheckPeriod_(DEFAULT_TIMEOUT_CHECK_PERIOD),
+        logUploadCheckReriod_(DEFAULT_LOG_UPLOAD_CHECK_PERIOD),
+        uploadVolumeThreshold_(DEFAULT_UPLOAD_VOLUME_THRESHOLD),
+        uploadCountThreshold_(DEFAULT_UPLOAD_COUNT_THRESHOLD)
+    {}
 
     virtual LogUploadStrategyDecision isUploadNeeded(ILogStorageStatus& status);
 
@@ -92,26 +92,26 @@ public:
     void setCountThreshold(std::size_t maxCount) { uploadCountThreshold_ = maxCount; }
 
 public:
-    static const std::size_t DEFAULT_BATCH_SIZE = 8 * 1024; /*!< The default value (in bytes) for the maximum size of
+    static const std::size_t DEFAULT_BATCH_SIZE/* = 8 * 1024*/; /*!< The default value (in bytes) for the maximum size of
                                                                  the report pack that will be delivered in a single
                                                                  request to the Operaions server. */
 
-    static const std::size_t DEFAULT_RECORDS_BATCH_COUNT = 256;
+    static const std::size_t DEFAULT_RECORDS_BATCH_COUNT/* = 256*/;
 
-    static const std::size_t DEFAULT_UPLOAD_TIMEOUT = 2 * 60; /*!< The default value (in seconds) for time to wait
+    static const std::size_t DEFAULT_UPLOAD_TIMEOUT/* = 2 * 60*/; /*!< The default value (in seconds) for time to wait
                                                                    the log delivery response. */
 
-    static const std::size_t DEFAULT_TIMEOUT_CHECK_PERIOD = 10;
+    static const std::size_t DEFAULT_TIMEOUT_CHECK_PERIOD/* = 10*/;
 
-    static const std::size_t DEFAULT_LOG_UPLOAD_CHECK_PERIOD = 30;
+    static const std::size_t DEFAULT_LOG_UPLOAD_CHECK_PERIOD/* = 30*/;
 
-    static const std::size_t DEFAULT_RETRY_PERIOD = 5 * 60; /*!< The default value (in seconds) for time to postpone
+    static const std::size_t DEFAULT_RETRY_PERIOD/* = 5 * 60*/; /*!< The default value (in seconds) for time to postpone
                                                                  log upload. */
 
-    static const std::size_t DEFAULT_UPLOAD_VOLUME_THRESHOLD = 8 * 1024; /*!< The default value (in bytes) for log
+    static const std::size_t DEFAULT_UPLOAD_VOLUME_THRESHOLD/* = 8 * 1024*/; /*!< The default value (in bytes) for log
                                                                               volume to initiate the log upload. */
 
-    static const std::size_t DEFAULT_UPLOAD_COUNT_THRESHOLD = 64; /*!< The default value for the log count to initiate
+    static const std::size_t DEFAULT_UPLOAD_COUNT_THRESHOLD/* = 64*/; /*!< The default value for the log count to initiate
                                                                        the log upload. */
 
 protected:

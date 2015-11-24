@@ -18,11 +18,11 @@
 
 namespace kaa {
 
-const std::size_t DefaultFailoverStrategy::DEFAULT_BOOTSTRAP_SERVERS_RETRY_PERIOD;
-const std::size_t DefaultFailoverStrategy::DEFAULT_OPERATION_SERVERS_RETRY_PERIOD;
-const std::size_t DefaultFailoverStrategy::DEFAULT_NO_OPERATION_SERVERS_RETRY_PERIOD;
-const std::size_t DefaultFailoverStrategy::DEFAULT_CURRENT_BOOTSTRAP_SERVER_NA;
-const std::size_t DefaultFailoverStrategy::DEFAULT_NO_CONNECTIVITY_RETRY_PERIOD;
+const std::size_t DefaultFailoverStrategy::DEFAULT_BOOTSTRAP_SERVERS_RETRY_PERIOD = 2;
+const std::size_t DefaultFailoverStrategy::DEFAULT_OPERATION_SERVERS_RETRY_PERIOD = 2;
+const std::size_t DefaultFailoverStrategy::DEFAULT_NO_OPERATION_SERVERS_RETRY_PERIOD = 2;
+const std::size_t DefaultFailoverStrategy::DEFAULT_CURRENT_BOOTSTRAP_SERVER_NA = 2;
+const std::size_t DefaultFailoverStrategy::DEFAULT_NO_CONNECTIVITY_RETRY_PERIOD = 5;
 
 FailoverStrategyDecision DefaultFailoverStrategy::onFailover(Failover failover)
 {
@@ -41,7 +41,3 @@ FailoverStrategyDecision DefaultFailoverStrategy::onFailover(Failover failover)
 }
 
 }
-
-
-
-

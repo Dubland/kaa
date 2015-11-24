@@ -64,7 +64,7 @@ public:
      */
     virtual void setConfigurationProcessor(IConfigurationProcessor* processor) = 0;
 
-    virtual ~IConfigurationTransport() = default;
+    virtual ~IConfigurationTransport() {}
 };
 
 }  // namespace kaa

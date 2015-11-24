@@ -84,7 +84,7 @@ public:
      */
     virtual void onStopFailure(const KaaException& exception) = 0;
 
-    virtual ~IKaaClientStateListener() = default;
+    virtual ~IKaaClientStateListener() {}
 };
 
 typedef std::shared_ptr<IKaaClientStateListener> IKaaClientStateListenerPtr;

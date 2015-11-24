@@ -37,7 +37,7 @@ public:
      */
     virtual void onConfigurationUpdated(const KaaRootConfiguration &configuration) = 0;
 
-    virtual ~IConfigurationReceiver() = default;
+    virtual ~IConfigurationReceiver() {}
 };
 
 }  // namespace kaa

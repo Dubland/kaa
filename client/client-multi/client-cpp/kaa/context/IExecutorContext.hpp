@@ -57,7 +57,7 @@ public:
      */
     virtual IThreadPool& getCallbackExecutor() = 0;
 
-    virtual ~IExecutorContext() = default;
+    virtual ~IExecutorContext() {}
 };
 
 typedef std::shared_ptr<IExecutorContext> IExecutorContextPtr;

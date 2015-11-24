@@ -65,7 +65,7 @@ public:
         return message_.c_str();
     }
 
-    virtual ~KaaException() = default;
+    virtual ~KaaException() {}
 
 private:
     std::string message_;

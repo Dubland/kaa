@@ -56,7 +56,7 @@ public:
      */
     virtual IExecutorContext& getExecutorContext() = 0;
 
-    virtual ~IKaaClientPlatformContext() = default;
+    virtual ~IKaaClientPlatformContext() {}
 };
 
 typedef std::shared_ptr<IKaaClientPlatformContext> IKaaClientPlatformContextPtr;

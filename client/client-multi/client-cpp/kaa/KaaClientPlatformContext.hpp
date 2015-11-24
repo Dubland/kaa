@@ -62,13 +62,15 @@ public:
         return *executorContext_;
     }
 
-    KaaClientPlatformContext(const KaaClientPlatformContext& properties) = delete;
-    KaaClientPlatformContext& operator=(const KaaClientPlatformContext& properties) = delete;
 
-    KaaClientPlatformContext(KaaClientPlatformContext&& properties) = delete;
-    KaaClientPlatformContext& operator=(KaaClientPlatformContext&& properties) = delete;
+    ~KaaClientPlatformContext() {}
 
-    ~KaaClientPlatformContext() = default;
+private:
+    KaaClientPlatformContext(const KaaClientPlatformContext& properties);
+    KaaClientPlatformContext& operator=(const KaaClientPlatformContext& properties);
+
+    KaaClientPlatformContext(KaaClientPlatformContext&& properties);
+    KaaClientPlatformContext& operator=(KaaClientPlatformContext&& properties);
 
 private:
     KaaClientProperties    properties_;

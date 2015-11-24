@@ -39,7 +39,7 @@ public:
      */
     virtual EndpointObjectHash getConfigurationHash() = 0;
 
-    virtual ~IConfigurationHashContainer() = default;
+    virtual ~IConfigurationHashContainer() {}
 };
 
 typedef std::shared_ptr<IConfigurationHashContainer> IConfigurationHashContainerPtr;

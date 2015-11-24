@@ -50,7 +50,7 @@ public:
      */
     virtual void clearConfiguration() = 0;
 
-    virtual ~IConfigurationStorage() = default;
+    virtual ~IConfigurationStorage() {}
 };
 
 typedef std::shared_ptr<IConfigurationStorage> IConfigurationStoragePtr;

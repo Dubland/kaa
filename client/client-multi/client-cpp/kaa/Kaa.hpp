@@ -45,21 +45,6 @@ class Kaa
 {
 public:
     /**
-     * @brief Use @link newClient() @endlink to create a Kaa client instance.
-     */
-    Kaa() = delete;
-
-    /**
-     * @brief Use @link newClient() @endlink to create a Kaa client instance.
-     */
-    Kaa(const Kaa&) = delete;
-
-    /**
-     * @brief Use @link newClient() @endlink to create a Kaa client instance.
-     */
-    Kaa& operator=(const Kaa&) = delete;
-
-    /**
      * @brief Creates a new instance of a Kaa client.
      *
      * @param context     Platform context.
@@ -119,6 +104,22 @@ public:
      */
     KAA_DEPRECATED
     static IKaaClient& getKaaClient();
+
+private:
+    /**
+     * @brief Use @link newClient() @endlink to create a Kaa client instance.
+     */
+    Kaa();
+
+    /**
+     * @brief Use @link newClient() @endlink to create a Kaa client instance.
+     */
+    Kaa(const Kaa&);
+
+    /**
+     * @brief Use @link newClient() @endlink to create a Kaa client instance.
+     */
+    Kaa& operator=(const Kaa&);
 
 private:
     static Botan::LibraryInitializer     botanInit_;

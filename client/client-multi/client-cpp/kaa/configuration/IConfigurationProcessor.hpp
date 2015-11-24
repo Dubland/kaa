@@ -42,7 +42,7 @@ public:
      */
     virtual void processConfigurationData(const std::vector<std::uint8_t>& data, bool fullResync) = 0;
 
-    virtual ~IConfigurationProcessor() = default;
+    virtual ~IConfigurationProcessor() {}
 };
 
 typedef std::shared_ptr<IConfigurationProcessor> IConfigurationProcessorPtr;

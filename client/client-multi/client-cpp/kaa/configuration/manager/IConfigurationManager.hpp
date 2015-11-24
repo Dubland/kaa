@@ -69,7 +69,7 @@ public:
 
     virtual IConfigurationHashContainer& getConfigurationHashContainer() = 0;
 
-    virtual ~IConfigurationManager() = default;
+    virtual ~IConfigurationManager() {}
 };
 
 typedef std::shared_ptr<IConfigurationManager> IConfigurationManagerPtr;

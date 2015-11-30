@@ -169,7 +169,9 @@ public class EndpointProfileActivity extends
             @Override
             public void onSuccess(List<ServerProfileSchemaDto> result) {
                 if (!result.isEmpty()) {
-                    detailsView.getServerSchemasListBox().setValue(result.get(0));
+                    ServerProfileSchemaDto serverProfSchemaDto = result.get(0);
+                    detailsView.getServerSchemasListBox().setValue(serverProfSchemaDto);
+                    generateRecordFromJson(serverProfSchemaDto.getSchemaDto().getBody());
                 }
                 detailsView.getServerSchemasListBox().setAcceptableValues(result);
             }
@@ -179,17 +181,7 @@ public class EndpointProfileActivity extends
             @Override
             public void onValueChange(ValueChangeEvent<ServerProfileSchemaDto> valueChangeEvent) {
                 String schema = valueChangeEvent.getValue().getSchemaDto().getBody();
-                KaaAdmin.getDataSource().generateRecordFromSchemaJson(schema, new AsyncCallback<RecordField>() {
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        org.kaaproject.kaa.server.admin.client.util.Utils.handleException(throwable, detailsView);
-                    }
-
-                    @Override
-                    public void onSuccess(RecordField recordField) {
-                        detailsView.getServerProfEditor().setValue(recordField);
-                    }
-                });
+                generateRecordFromJson(schema);
             }
         }));
 
@@ -212,17 +204,7 @@ public class EndpointProfileActivity extends
             public void onClick(ClickEvent clickEvent) {
                 if (detailsView.getServerProfEditor().getValue() != null) {
                     String schema = detailsView.getServerSchemasListBox().getValue().getSchemaDto().getBody();
-                    KaaAdmin.getDataSource().generateRecordFromSchemaJson(schema, new AsyncCallback<RecordField>() {
-                        @Override
-                        public void onFailure(Throwable throwable) {
-                            org.kaaproject.kaa.server.admin.client.util.Utils.handleException(throwable, detailsView);
-                        }
-
-                        @Override
-                        public void onSuccess(RecordField recordField) {
-                            detailsView.getServerProfEditor().setValue(recordField);
-                        }
-                    });
+                    generateRecordFromJson(schema);
                 }
             }
         }));
@@ -273,6 +255,20 @@ public class EndpointProfileActivity extends
         } else detailsView.getTopicsGrid().getDataGrid().setRowData(new ArrayList<TopicDto>());
     }
 
+    private void generateRecordFromJson(String schema) {
+        KaaAdmin.getDataSource().generateRecordFromSchemaJson(schema, new AsyncCallback<RecordField>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                org.kaaproject.kaa.server.admin.client.util.Utils.handleException(throwable, detailsView);
+            }
+
+            @Override
+            public void onSuccess(RecordField recordField) {
+                detailsView.getServerProfEditor().setValue(recordField);
+            }
+        });
+    }
+
     private void addServerProfNameClickHandler(final String id) {
         if (serverProfNameClickHandler != null) {
             removeServerProfNameClickHandler();
@@ -291,8 +287,8 @@ public class EndpointProfileActivity extends
 
     private void removeServerProfNameClickHandler() {
         if (serverProfNameClickHandler != null) {
+            serverProfNameClickHandler.removeHandler();
             registrations.remove(serverProfNameClickHandler);
-            serverProfNameClickHandler = null;
         }
     }
 

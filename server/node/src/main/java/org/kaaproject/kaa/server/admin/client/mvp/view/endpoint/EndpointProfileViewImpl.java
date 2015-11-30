@@ -132,7 +132,7 @@ public class EndpointProfileViewImpl extends BaseDetailsViewImpl implements Endp
                 recordPanelWidth(700).createConfig(),
                 Utils.constants.profile(), this, false, true);
         recordTable.setWidget(1, 0, endpointProfForm);
-        recordTable.getFlexCellFormatter().setColSpan(1, 0, 3);
+        recordTable.getFlexCellFormatter().setColSpan(1, 0, 2);
 
         formPanel.add(recordTable);
         Label endpointProfLabel = new Label(Utils.constants.endpointProfile());
@@ -163,7 +163,7 @@ public class EndpointProfileViewImpl extends BaseDetailsViewImpl implements Endp
         detailsTable.setWidget(++row, 0, serverProfLabel);
         detailsTable.setWidget(++row, 0, serverFormPanel);
         serverProfLabel.getElement().getParentElement().getStyle().setPropertyPx("paddingBottom", 10);
-        detailsTable.getFlexCellFormatter().setColSpan(row, 0, 3);
+        detailsTable.getFlexCellFormatter().setColSpan(row, 0, 2);
         serverFormPanel.getElement().getParentElement().getStyle().setPropertyPx("paddingBottom", 10);
 
         HorizontalPanel buttonsPanel = new HorizontalPanel();
@@ -200,7 +200,7 @@ public class EndpointProfileViewImpl extends BaseDetailsViewImpl implements Endp
         listBoxPanel.add(serverProfListLabel);
         listBoxPanel.add(serverSchemasListBox);
         popupFlexTable.setWidget(0, 0, listBoxPanel);
-//        serverProfListLabel.getElement().getParentElement().getStyle().setPropertyPx("paddingBottom", 10);
+        serverProfListLabel.getElement().getParentElement().getStyle().setPropertyPx("paddingBottom", 10);
 
         CaptionPanel recordPanel = new CaptionPanel("Server profile");
         serverProfEditor = new RecordFieldWidget(new AvroWidgetsConfig.Builder().recordPanelWidth(700)

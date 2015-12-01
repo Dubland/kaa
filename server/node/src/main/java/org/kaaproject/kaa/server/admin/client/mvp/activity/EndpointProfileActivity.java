@@ -23,6 +23,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Widget;
@@ -159,23 +160,40 @@ public class EndpointProfileActivity extends
             }
         }));
 
-        KaaAdmin.getDataSource().loadServerProfileSchemas(place.getApplicationId(),
-                new AsyncCallback<List<ServerProfileSchemaDto>>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-                org.kaaproject.kaa.server.admin.client.util.Utils.handleException(throwable, detailsView);
-            }
+//        KaaAdmin.getDataSource().loadServerProfileSchemas(place.getApplicationId(),
+//                new AsyncCallback<List<ServerProfileSchemaDto>>() {
+//            @Override
+//            public void onFailure(Throwable throwable) {
+//                org.kaaproject.kaa.server.admin.client.util.Utils.handleException(throwable, detailsView);
+//            }
+//
+//            @Override
+//            public void onSuccess(List<ServerProfileSchemaDto> result) {
+//                if (!result.isEmpty()) {
+//                    ServerProfileSchemaDto serverProfSchemaDto = result.get(0);
+//                    detailsView.getServerSchemasListBox().setValue(serverProfSchemaDto);
+//                    generateRecordFromJson(serverProfSchemaDto.getSchemaDto().getBody());
+//                }
+//                detailsView.getServerSchemasListBox().setAcceptableValues(result);
+//            }
+//        });
 
-            @Override
-            public void onSuccess(List<ServerProfileSchemaDto> result) {
-                if (!result.isEmpty()) {
-                    ServerProfileSchemaDto serverProfSchemaDto = result.get(0);
-                    detailsView.getServerSchemasListBox().setValue(serverProfSchemaDto);
-                    generateRecordFromJson(serverProfSchemaDto.getSchemaDto().getBody());
+        List<ServerProfileSchemaDto> serverProfileSchemas = entity.getServerProfileSchemas();
+        if (!serverProfileSchemas.isEmpty()) {
+            String serverProfileSchemaId = profileDto.getServerProfileSchemaId();
+            if (serverProfileSchemaId != null) {
+                for (ServerProfileSchemaDto schemaDto : serverProfileSchemas) {
+                    if (schemaDto.getId().equals(serverProfileSchemaId)) {
+                        detailsView.getServerSchemasListBox().setValue(schemaDto);
+                    }
                 }
-                detailsView.getServerSchemasListBox().setAcceptableValues(result);
+            } else {
+                ServerProfileSchemaDto serverProfSchemaDto = serverProfileSchemas.get(0);
+                detailsView.getServerSchemasListBox().setValue(serverProfSchemaDto);
+                generateRecordFromJson(serverProfSchemaDto.getSchemaDto().getBody());
             }
-        });
+        }
+        detailsView.getServerSchemasListBox().setAcceptableValues(serverProfileSchemas);
 
         registrations.add(detailsView.getServerSchemasListBox().addValueChangeHandler(new ValueChangeHandler<ServerProfileSchemaDto>() {
             @Override
@@ -223,24 +241,24 @@ public class EndpointProfileActivity extends
 
                 KaaAdmin.getDataSource().updateEndpointProfile(endpointProfileRecordFieldDto,
                         new AsyncCallback<EndpointProfileRecordFieldDto>() {
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        org.kaaproject.kaa.server.admin.client.util.Utils.handleException(throwable, detailsView);
-                    }
+                            @Override
+                            public void onFailure(Throwable throwable) {
+                                org.kaaproject.kaa.server.admin.client.util.Utils.handleException(throwable, detailsView);
+                            }
 
-                    @Override
-                    public void onSuccess(EndpointProfileRecordFieldDto endpointProfileDto) {
-                        detailsView.getServerProfSchemaName().setText(serverSchemaName);
-                        addServerProfNameClickHandler(serverSchemaId);
-                        detailsView.getServerProfForm().reset();
-                        detailsView.getServerProfForm().setValue(value);
-                        detailsView.getServerProfEditor().clear();
-                        detailsView.getServerProfEditor().setValue(null);
-                        detailsView.getAddServerSchemaButton().setEnabled(false);
-                        detailsView.getEditButton().setEnabled(true);
-                        detailsView.getDeleteButton().setEnabled(true);
-                    }
-                });
+                            @Override
+                            public void onSuccess(EndpointProfileRecordFieldDto endpointProfileDto) {
+                                detailsView.getServerProfSchemaName().setText(serverSchemaName);
+                                addServerProfNameClickHandler(serverSchemaId);
+                                detailsView.getServerProfForm().reset();
+                                detailsView.getServerProfForm().setValue(value);
+                                detailsView.getServerProfEditor().clear();
+                                detailsView.getServerProfEditor().setValue(null);
+                                detailsView.getAddServerSchemaButton().setEnabled(false);
+                                detailsView.getEditButton().setEnabled(true);
+                                detailsView.getDeleteButton().setEnabled(true);
+                            }
+                        });
             }
         }));
 

@@ -676,13 +676,50 @@ public class KaaAdminController {
     }
 
     /**
+     * Gets server profile of the given endpoint profile.
+     *
+     */
+    @RequestMapping(value="endpointProfile/serverProfile/{endpointProfileKey}",
+            method=RequestMethod.GET)
+    @ResponseBody
+    public String getEndpointsServerProfile(@PathVariable String endpointProfileKey) throws KaaAdminServiceException {
+//        return kaaAdminService.getServerProfile();
+        return null;
+    }
+
+    /**
+     * Updates server profile for the given endpoint profile.
+     *
+     */
+    @RequestMapping(value="endpointProfile/serverProfile/{endpointProfileKey}/{serverProfileSchemaId}",
+                    method=RequestMethod.POST)
+    @ResponseBody
+    public EndpointProfileDto updateEndpointsServerProfile(@PathVariable String endpointProfileKey,
+                                                           @PathVariable String serverProfileSchemaId,
+                                                           @RequestPart("file") MultipartFile file) throws KaaAdminServiceException {
+        byte[] data = getFileContent(file);
+        return kaaAdminService.saveServerProfile(endpointProfileKey.getBytes(), serverProfileSchemaId, new String(data));
+    }
+
+    /**
+     * Updates server profile for the given endpoint profile.
+     *
+     */
+    @RequestMapping(value="endpointProfile/serverProfile/{endpointProfileKey}",
+                    method=RequestMethod.DELETE)
+    @ResponseBody
+    public EndpointProfileDto deleteEndpointsServerProfile(@PathVariable String endpointProfileKey) throws KaaAdminServiceException {
+        return kaaAdminService.saveServerProfile(endpointProfileKey.getBytes(), null, null);
+    }
+
+    /**
      * Adds server profile schema to the list of all profile schemas.
      *
      */
     @RequestMapping(value="createServerProfileSchema", method=RequestMethod.POST, consumes = { "multipart/mixed", "multipart/form-data" })
     @ResponseBody
     public ServerProfileSchemaDto createServerProfileSchema(@RequestPart("profileSchema") ServerProfileSchemaDto profileSchema,
-            @RequestPart("file") MultipartFile file) throws KaaAdminServiceException {
+                                                            @RequestPart("file") MultipartFile file) throws KaaAdminServiceException {
         byte[] data = getFileContent(file);
         return kaaAdminService.editServerProfileSchema(profileSchema, data);
     }
@@ -706,7 +743,6 @@ public class KaaAdminController {
     public List<ServerProfileSchemaDto> getServerProfileSchemasByApplicationId(@PathVariable String applicationId) throws KaaAdminServiceException {
         return kaaAdminService.getServerProfileSchemasByApplicationId(applicationId);
     }
-
 
     @RequestMapping(value="serverProfileSchema/{profileSchemaId}", method=RequestMethod.GET)
     @ResponseBody

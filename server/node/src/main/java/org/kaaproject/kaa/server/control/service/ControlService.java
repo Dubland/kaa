@@ -1059,6 +1059,16 @@ public interface ControlService {
     EndpointProfileDto updateEndpointProfile(EndpointProfileDto endpointProfileDto) throws ControlServiceException;
 
     /**
+     * Updates server profile for given endpoint.
+     *
+     * @param keyHash the endpoint key hash identifier.
+     * @param serverProfile server profile data in string representation.
+     * @return updated endpoint profile dto.
+     * @throws ControlServiceException
+     */
+    EndpointProfileDto saveServerProfile(byte[] keyHash, String serverProfile) throws ControlServiceException;
+
+    /**
      * Saves a CTL schema to the database.
      * 
      * @param schema A CTL schema to save

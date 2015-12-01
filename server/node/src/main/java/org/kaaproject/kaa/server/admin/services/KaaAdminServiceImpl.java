@@ -341,6 +341,18 @@ public class KaaAdminServiceImpl implements KaaAdminService, InitializingBean {
     }
 
     @Override
+    public EndpointProfileDto saveServerProfile(byte[] keyHash, String schemaId, String serverProfile) throws KaaAdminServiceException {
+        checkAuthority(KaaAuthorityDto.TENANT_DEVELOPER, KaaAuthorityDto.TENANT_USER);
+        try {
+            return controlService.saveServerProfile(keyHash, serverProfile);
+
+
+        } catch (Exception e) {
+            throw Utils.handleException(e);
+        }
+    }
+
+    @Override
     public EndpointProfileRecordFieldDto updateEndpointProfile(EndpointProfileRecordFieldDto endpointProfileRecordDto)
             throws KaaAdminServiceException {
         checkAuthority(KaaAuthorityDto.TENANT_DEVELOPER, KaaAuthorityDto.TENANT_USER);
@@ -365,6 +377,9 @@ public class KaaAdminServiceImpl implements KaaAdminService, InitializingBean {
 
                 endpointProfileDto.setServerProfileBody(new String(baos.toByteArray(), Charset.forName("UTF-8")));
             }
+
+//            GenericAvroConverter<GenericRecord> converter = new GenericAvroConverter<GenericRecord>(profileRecord.getSchema());
+//            endpointProfileDto.setServerProfileBody(converter.encodeToJson(profileRecord));
 
             EndpointProfileDto profileDto = controlService.updateEndpointProfile(endpointProfileDto);
 

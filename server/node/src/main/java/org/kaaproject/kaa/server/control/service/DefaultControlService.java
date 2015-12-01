@@ -1560,6 +1560,11 @@ public class DefaultControlService implements ControlService {
     }
 
     @Override
+    public EndpointProfileDto saveServerProfile(byte[] keyHash, String serverProfile) throws ControlServiceException {
+        return serverProfileService.saveServerProfile(keyHash, serverProfile);
+    }
+
+    @Override
     public SdkProfileDto getSdkProfile(String sdkProfileId) throws ControlServiceException {
         return sdkProfileService.findSdkProfileById(sdkProfileId);
     }
@@ -1614,6 +1619,8 @@ public class DefaultControlService implements ControlService {
                     findServerProfileSchema(serverProfileSchemaId);
             viewDto.setServerProfileSchemaDto(serverProfileSchema);
         }
+
+        viewDto.setServerProfileSchemas(serverProfileService.findServerProfileSchemasByAppId(applicationId));
 
         /*    Getting notification topics    */
         List<TopicDto> topicsByApplicationId = topicService.findTopicsByAppId(applicationId);

@@ -58,11 +58,13 @@ import org.kaaproject.kaa.common.dto.NotificationTypeDto;
 import org.kaaproject.kaa.common.dto.ProfileFilterDto;
 import org.kaaproject.kaa.common.dto.ProfileSchemaDto;
 import org.kaaproject.kaa.common.dto.SchemaDto;
+import org.kaaproject.kaa.common.dto.ServerProfileSchemaDto;
 import org.kaaproject.kaa.common.dto.TopicDto;
 import org.kaaproject.kaa.common.dto.TopicTypeDto;
 import org.kaaproject.kaa.common.dto.UpdateStatus;
 import org.kaaproject.kaa.common.dto.admin.TenantUserDto;
 import org.kaaproject.kaa.common.dto.admin.UserDto;
+import org.kaaproject.kaa.common.dto.ctl.CTLSchemaDto;
 import org.kaaproject.kaa.common.dto.ctl.CTLSchemaInfoDto;
 import org.kaaproject.kaa.common.dto.ctl.CTLSchemaMetaInfoDto;
 import org.kaaproject.kaa.common.dto.ctl.CTLSchemaScopeDto;
@@ -173,6 +175,9 @@ public abstract class AbstractTestControlServer extends AbstractTest {
 
     /** The Constant TEST_PROFILE_SCHEMA. */
     protected static final String TEST_PROFILE_SCHEMA = "control/data/testProfileSchema.json";
+
+    /** The Constant TEST_PROFILE_SCHEMA. */
+    protected static final String TEST_SERVER_PROFILE_SCHEMA = "control/data/testServerProfileSchema.json";
 
     /** The Constant TEST_PROFILE_SCHEMA_UPDATED. */
     protected static final String TEST_PROFILE_SCHEMA_UPDATED = "control/data/testProfileSchemaUpdated.json";
@@ -683,6 +688,46 @@ public abstract class AbstractTestControlServer extends AbstractTest {
         ProfileSchemaDto savedProfileSchema = client
                 .createProfileSchema(profileSchema, TEST_PROFILE_SCHEMA);
         return savedProfileSchema;
+    }
+
+    /**
+     * Creates Server profile schema.
+     *
+     * @return the server profile schema dto.
+     * @throws Exception
+     */
+    protected ServerProfileSchemaDto createServerSchema() throws Exception {
+        return createServerSchema(null);
+    }
+
+    /**
+     * Creates Server profile schema.
+     *
+     * @param applicationId the application id.
+     * @return the server profile schema dto.
+     * @throws Exception
+     */
+    protected ServerProfileSchemaDto createServerSchema(String applicationId) throws Exception {
+        ServerProfileSchemaDto serverProfileSchema = new ServerProfileSchemaDto();
+        CTLSchemaMetaInfoDto ctlSchemaMetaInfoDto = new CTLSchemaMetaInfoDto("createserverschema.TestFqn", 1,
+                CTLSchemaScopeDto.SERVER_PROFILE_SCHEMA);
+        CTLSchemaDto ctlSchemaDto = new CTLSchemaDto();
+        ctlSchemaDto.setMetaInfo(ctlSchemaMetaInfoDto);
+        if (strIsEmpty(applicationId)) {
+            ApplicationDto application = createApplication(tenantAdminDto);
+            applicationId = application.getId();
+            ctlSchemaDto.setApplicationId(applicationId);
+            serverProfileSchema.setApplicationId(applicationId);
+        }
+        else {
+            ctlSchemaDto.setApplicationId(applicationId);
+            serverProfileSchema.setApplicationId(applicationId);
+        }
+        serverProfileSchema.setSchemaDto(ctlSchemaDto);
+        ctlSchemaDto.setName("Test Name");
+        ctlSchemaDto.setDescription("Test Description");
+        loginTenantDeveloper(tenantDeveloperDto.getUsername());
+        return client.createServerProfileSchema(serverProfileSchema, TEST_SERVER_PROFILE_SCHEMA);
     }
 
     /**

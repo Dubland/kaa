@@ -958,6 +958,21 @@ public class KaaAdminServiceImpl implements KaaAdminService, InitializingBean {
         try {
             if (isEmpty(serverProfileSchema.getId())) {
                 serverProfileSchema.getSchemaDto().setCreatedUsername(getCurrentUser().getUsername());
+
+//                int version = 0;
+//                ServerProfileSchemaDto latestServerProfileSchema =
+//                        controlService.findLatestServerProfileSchema(serverProfileSchema.getApplicationId());
+//                if (latestServerProfileSchema != null) {
+//                    version = latestServerProfileSchema.getSchemaDto().getMetaInfo().getVersion();
+//                }
+//                CTLSchemaMetaInfoDto metaInfoDto = new CTLSchemaMetaInfoDto(
+//                        getDeclaredFqn(serverProfileSchema.getSchemaForm()), ++version,
+//                        CTLSchemaScopeDto.SERVER_PROFILE_SCHEMA);
+//                serverProfileSchema.getSchemaDto().setMetaInfo(metaInfoDto);
+
+                serverProfileSchema.setCreatedTime(new Date().getTime());
+                serverProfileSchema.getSchemaDto().setTenantId(getCurrentUser().getTenantId());
+                serverProfileSchema.getSchemaDto().setCreatedUsername(getCurrentUser().getUsername());
                 checkApplicationId(serverProfileSchema.getApplicationId());
                 setSchema(serverProfileSchema, schema);
             } else {
@@ -991,9 +1006,9 @@ public class KaaAdminServiceImpl implements KaaAdminService, InitializingBean {
             throws KaaAdminServiceException {
         checkAuthority(KaaAuthorityDto.TENANT_DEVELOPER, KaaAuthorityDto.TENANT_USER);
         try {
-            int version = 0;
             CTLSchemaDto ctlSchemaDto = serverProfileSchema.getSchemaDto();
             if (isEmpty(serverProfileSchema.getId())) {
+                int version = 0;
                 ServerProfileSchemaDto latestServerProfileSchema =
                         controlService.findLatestServerProfileSchema(serverProfileSchema.getApplicationId());
                 if (latestServerProfileSchema != null) {

@@ -42,6 +42,7 @@ import org.kaaproject.kaa.common.dto.ProfileFilterDto;
 import org.kaaproject.kaa.common.dto.ProfileFilterRecordDto;
 import org.kaaproject.kaa.common.dto.ProfileSchemaDto;
 import org.kaaproject.kaa.common.dto.SchemaDto;
+import org.kaaproject.kaa.common.dto.ServerProfileSchemaDto;
 import org.kaaproject.kaa.common.dto.TopicDto;
 import org.kaaproject.kaa.common.dto.admin.AuthResultDto;
 import org.kaaproject.kaa.common.dto.admin.RecordKey;
@@ -672,6 +673,45 @@ public class KaaAdminController {
     @ResponseBody
     public ProfileSchemaDto editProfileSchema(@RequestBody ProfileSchemaDto profileSchema) throws KaaAdminServiceException {
         return kaaAdminService.editProfileSchema(profileSchema, null);
+    }
+
+    /**
+     * Adds server profile schema to the list of all profile schemas.
+     *
+     */
+    @RequestMapping(value="createServerProfileSchema", method=RequestMethod.POST, consumes = { "multipart/mixed", "multipart/form-data" })
+    @ResponseBody
+    public ServerProfileSchemaDto createServerProfileSchema(@RequestPart("profileSchema") ServerProfileSchemaDto profileSchema,
+            @RequestPart("file") MultipartFile file) throws KaaAdminServiceException {
+        byte[] data = getFileContent(file);
+        return kaaAdminService.editServerProfileSchema(profileSchema, data);
+    }
+
+    /**
+     * Edits existing server profile schema.
+     *
+     */
+    @RequestMapping(value="editServerProfileSchema", method=RequestMethod.POST)
+    @ResponseBody
+    public ServerProfileSchemaDto editServerProfileSchema(@RequestBody ServerProfileSchemaDto profileSchema) throws KaaAdminServiceException {
+        return kaaAdminService.editServerProfileSchema(profileSchema, null);
+    }
+
+    /**
+     * Gets the server profile schemas by application id.
+     *
+     */
+    @RequestMapping(value="serverProfileSchemas/{applicationId}", method=RequestMethod.GET)
+    @ResponseBody
+    public List<ServerProfileSchemaDto> getServerProfileSchemasByApplicationId(@PathVariable String applicationId) throws KaaAdminServiceException {
+        return kaaAdminService.getServerProfileSchemasByApplicationId(applicationId);
+    }
+
+
+    @RequestMapping(value="serverProfileSchema/{profileSchemaId}", method=RequestMethod.GET)
+    @ResponseBody
+    public ServerProfileSchemaDto getServerProfileSchema(@PathVariable String profileSchemaId) throws KaaAdminServiceException {
+        return kaaAdminService.getServerProfileSchema(profileSchemaId);
     }
 
     /**

@@ -96,21 +96,22 @@ public class ObjCSdkGenerator extends SdkGenerator {
 
     @Override
     public FileData generateSdk(String buildVersion,
-                           List<BootstrapNodeInfo> bootstrapNodes,
-                           String sdkToken, SdkProfileDto sdkProperties,
-                           String profileSchemaBody,
-                           String notificationSchemaBody,
-                           String configurationProtocolSchemaBody,
-                           String configurationBaseSchemaBody,
-                           byte[] defaultConfigurationData,
-                           List<EventFamilyMetadata> eventFamilies,
-                           String logSchemaBody) throws Exception {
+                                         List<BootstrapNodeInfo> bootstrapNodes,
+                                         SdkProfileDto sdkProfile,
+                                         String profileSchemaBody,
+                                         String notificationSchemaBody,
+                                         String configurationProtocolSchemaBody,
+                                         String configurationBaseSchemaBody,
+                                         byte[] defaultConfigurationData,
+                                         List<EventFamilyMetadata> eventFamilies,
+                                         String logSchemaBody) throws Exception {
 
-        Integer configurationSchemaVersion = sdkProperties.getConfigurationSchemaVersion();
-        Integer profileSchemaVersion = sdkProperties.getProfileSchemaVersion();
-        Integer notificationSchemaVersion = sdkProperties.getNotificationSchemaVersion();
-        Integer logSchemaVersion = sdkProperties.getLogSchemaVersion();
-        String defaultVerifierToken = sdkProperties.getDefaultVerifierToken();
+        String sdkToken = sdkProfile.getToken();
+        Integer configurationSchemaVersion = sdkProfile.getConfigurationSchemaVersion();
+        Integer profileSchemaVersion = sdkProfile.getProfileSchemaVersion();
+        Integer notificationSchemaVersion = sdkProfile.getNotificationSchemaVersion();
+        Integer logSchemaVersion = sdkProfile.getLogSchemaVersion();
+        String defaultVerifierToken = sdkProfile.getDefaultVerifierToken();
 
         String sdkTemplateLocation = System.getProperty("server_home_dir") + "/" + SDK_DIR + SDK_PREFIX + buildVersion + ".tar.gz";
 

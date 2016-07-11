@@ -13,61 +13,21 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <sys/stat.h>
-#include <string.h>
-#include <stdlib.h>
 
-#include <mbedtls/pk.h>
-#include <mbedtls/entropy.h>
-#include <mbedtls/ctr_drbg.h>
-#include <mbedtls/md.h>
-#include <mbedtls/sha1.h>
-#include <mbedtls/base64.h>
-
-/* Filename where public/private keys are stored */
-#define KAA_KEYS_STORAGE "kaa_keys_gen.h"
-
-/* RSA Endpoint definitions */
-#define KAA_RSA_KEY_LENGTH 2048
-#define KAA_RSA_EXPONENT   65537
-
-#define KAA_RSA_PUBLIC_KEY_LENGTH_MAX  294
-#define KAA_RSA_PRIVATE_KEY_LENGTH_MAX 1200
-
-#define SHA1_LENGTH 20
-/*
- * Structure which contains Endpoint keys.
- *
- * public_key is a pointer to RSA public key.
- * private_key is a pointer to RSA private key.
- *
- * note: the main purpose of the structure is
- * caching calculated keys.
- */
-typedef struct {
-    uint8_t public_key[KAA_RSA_PUBLIC_KEY_LENGTH_MAX];
-    uint8_t private_key[KAA_RSA_PRIVATE_KEY_LENGTH_MAX];
-    size_t  public_key_length;
-    size_t  private_key_length;
-} endpoint_keys_t;
+#include <kaa_rsa_key_gen.h>
 
 /* Endpoint's RSA Keys */
-static endpoint_keys_t keys;
-static mbedtls_pk_context pk_context_;
 
-static int rsa_genkey(mbedtls_pk_context *pk);
+endpoint_keys_t keys;
 
+char buffer[500];
 
 /* Use this function to extract RSA keys from mbedtls_pk_context.
  * private_key_length and public_key_length should poing to the
  * value which is the size of the private and public keys respectively.
  * They will be initialized with actual length of the keys.
  */
-static int kaa_write_keys(mbedtls_pk_context *pk, uint8_t *public_key,
+int kaa_write_keys(mbedtls_pk_context *pk, uint8_t *public_key,
                           size_t *public_key_length, uint8_t *private_key,
                           size_t *private_key_length)
 {
@@ -89,7 +49,7 @@ static int kaa_write_keys(mbedtls_pk_context *pk, uint8_t *public_key,
     return 0;
 }
 
-static int rsa_keys_create(mbedtls_pk_context *pk, uint8_t *public_key,
+int rsa_keys_create(mbedtls_pk_context *pk, uint8_t *public_key,
                            size_t *public_key_length, uint8_t *private_key,
                            size_t *private_key_length)
 {
@@ -102,8 +62,7 @@ static int rsa_keys_create(mbedtls_pk_context *pk, uint8_t *public_key,
                           private_key, private_key_length);
 }
 
-
-static int rsa_genkey(mbedtls_pk_context *pk)
+int rsa_genkey(mbedtls_pk_context *pk)
 {
     int ret = 0;
     const char *pers = "gen_key";
@@ -143,26 +102,7 @@ exit:
     return ret;
 }
 
-/* File structure */
-#define GUARD_IFNDEF                    "#ifndef KAA_RSA_KEYS_H_\n"
-#define GUARD_DEF                       "#define KAA_RSA_KEYS_H_\n\n\n"
-#define PUBLIC_KEY_LEN                  "#define KAA_RSA_PUBLIC_KEY_LENGTH  %zu\n"
-#define PRIVATE_KEY_LEN                 "#define KAA_RSA_PRIVATE_KEY_LENGTH %zu\n\n\n"
-#define KAA_SHA1_PUB_LEN                "#define KAA_SHA1_PUB_LEN %zu\n"
-#define KAA_SHA1_PUB_BASE64_LEN         "#define KAA_SHA1_PUB_BASE64_LEN %zu\n\n\n"
-#define KEY_STARTS                      "{ "
-#define KEY_SEPARATOR                   ", "
-#define KEY_ENDS                        " };\n\n"
-#define KAA_RSA_PUBLIC_KEY              "uint8_t KAA_RSA_PUBLIC_KEY[] = "
-#define KAA_RSA_PRIVATE_KEY             "uint8_t KAA_RSA_PRIVATE_KEY[] = "
-#define KAA_SHA1_PUB                    "uint8_t KAA_SHA1_PUB[] = "
-#define KAA_SHA1_PUB_BASE64             "uint8_t KAA_SHA1_PUB_BASE64[] = "
-#define GUARD_ENDIF                     "#endif /* KAA_RSA_KEYS_H */\n"
-
-char buffer[500];
-char key[KAA_RSA_PRIVATE_KEY_LENGTH_MAX];
-
-static void store_key(FILE *fd, const char *prefix, size_t prefix_size,
+void store_key(FILE *fd, const char *prefix, size_t prefix_size,
                       uint8_t *key, size_t length)
 {
     size_t i;
@@ -177,14 +117,14 @@ static void store_key(FILE *fd, const char *prefix, size_t prefix_size,
     fwrite(KEY_ENDS, sizeof(KEY_ENDS) - 1, 1, fd);
 }
 
-static int sha1_store(FILE *fd, uint8_t *sha1, size_t sha1_len, uint8_t *sha1_base64, size_t sha1_base64_len)
+int sha1_store(FILE *fd, uint8_t *sha1, size_t sha1_len, uint8_t *sha1_base64, size_t sha1_base64_len)
 {
     store_key(fd, KAA_SHA1_PUB, sizeof(KAA_SHA1_PUB) - 1, sha1, sha1_len);
     store_key(fd, KAA_SHA1_PUB_BASE64, sizeof(KAA_SHA1_PUB_BASE64) - 1, sha1_base64, sha1_base64_len);
     return 0;
 }
 
-static int sha1_from_public_key(uint8_t *key, size_t length, uint8_t *sha1)
+int sha1_from_public_key(uint8_t *key, size_t length, uint8_t *sha1)
 {
     if (!key || !length) {
         printf("Can't generate sha1\n");
@@ -200,7 +140,7 @@ static int sha1_from_public_key(uint8_t *key, size_t length, uint8_t *sha1)
     return 0;
 }
 
-static int sha1_to_base64(uint8_t *key, size_t length, uint8_t *base64, size_t base64_len, size_t *output_len)
+int sha1_to_base64(uint8_t *key, size_t length, uint8_t *base64, size_t base64_len, size_t *output_len)
 {
     if (!key || !length) {
         printf("Can't generate base64 representation of the public key\n");
@@ -210,7 +150,7 @@ static int sha1_to_base64(uint8_t *key, size_t length, uint8_t *base64, size_t b
     return  mbedtls_base64_encode((unsigned char *)base64, base64_len, output_len, key, length);
 }
 
-static int kaa_keys_store(uint8_t *public_key, size_t public_key_length,
+int kaa_keys_store(uint8_t *public_key, size_t public_key_length,
                           uint8_t *private_key, size_t private_key_length)
 {
 
@@ -262,24 +202,4 @@ static int kaa_keys_store(uint8_t *public_key, size_t public_key_length,
     fclose(fd);
 
     return 0;
-}
-
-int main()
-{
-    keys.public_key_length = KAA_RSA_PUBLIC_KEY_LENGTH_MAX;
-    keys.private_key_length = KAA_RSA_PRIVATE_KEY_LENGTH_MAX;
-
-    int error = rsa_keys_create(&pk_context_, keys.public_key, &keys.public_key_length,
-                                keys.private_key, &keys.private_key_length);
-    if (error) {
-        printf("Error: can't generate keys (%i)\n", error);
-    }
-
-    error = kaa_keys_store(keys.public_key, keys.public_key_length, keys.private_key, keys.private_key_length);
-    if (error) {
-        printf("Error: Can't store the keys\n");
-    }
-
-    mbedtls_pk_free(&pk_context_);
-    return error ? EXIT_FAILURE : EXIT_SUCCESS;
 }

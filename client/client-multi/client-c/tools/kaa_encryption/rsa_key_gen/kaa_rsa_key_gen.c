@@ -20,8 +20,6 @@
 
 endpoint_keys_t keys;
 
-char buffer[500];
-
 /* Use this function to extract RSA keys from mbedtls_pk_context.
  * private_key_length and public_key_length should poing to the
  * value which is the size of the private and public keys respectively.
@@ -105,6 +103,7 @@ exit:
 void store_key(FILE *fd, const char *prefix, size_t prefix_size,
                       uint8_t *key, size_t length)
 {
+    char buffer[512];
     size_t i;
     fwrite(prefix, prefix_size, 1, fd);
     fwrite(KEY_STARTS, sizeof(KEY_STARTS) - 1, 1, fd);
@@ -153,13 +152,14 @@ int sha1_to_base64(uint8_t *key, size_t length, uint8_t *base64, size_t base64_l
 int kaa_keys_store(uint8_t *public_key, size_t public_key_length,
                           uint8_t *private_key, size_t private_key_length)
 {
-
+    
     FILE *fd = fopen(KAA_KEYS_STORAGE, "w");
     if (!fd) {
         return -1;
     }
 
     size_t written;
+    char buffer[512];
     fwrite(GUARD_IFNDEF, sizeof(GUARD_IFNDEF) - 1, 1, fd);
     fwrite(GUARD_DEF, sizeof(GUARD_DEF) - 1, 1, fd);
 

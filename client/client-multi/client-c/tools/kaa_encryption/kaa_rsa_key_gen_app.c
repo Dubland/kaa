@@ -22,8 +22,7 @@
 endpoint_keys_t keys;
 mbedtls_pk_context pk_context_;
 
-char buffer[500];
-char key[KAA_RSA_PRIVATE_KEY_LENGTH_MAX];
+static char key[KAA_RSA_PRIVATE_KEY_LENGTH_MAX];
 
 int main()
 {

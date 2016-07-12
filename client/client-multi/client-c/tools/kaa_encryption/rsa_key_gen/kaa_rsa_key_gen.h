@@ -74,6 +74,11 @@ typedef struct {
 
 int rsa_genkey(mbedtls_pk_context *pk);
 
+/* Use this function to extract RSA keys from mbedtls_pk_context.
+ * private_key_length and public_key_length should poing to the
+ * value which is the size of the private and public keys respectively.
+ * They will be initialized with actual length of the keys.
+ */
 int kaa_write_keys(mbedtls_pk_context *pk, uint8_t *public_key,
                           size_t *public_key_length, uint8_t *private_key,
                           size_t *private_key_length);

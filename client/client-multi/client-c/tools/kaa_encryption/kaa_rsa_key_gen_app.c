@@ -22,8 +22,6 @@
 endpoint_keys_t keys;
 mbedtls_pk_context pk_context_;
 
-static char key[KAA_RSA_PRIVATE_KEY_LENGTH_MAX];
-
 int main()
 {
     keys.public_key_length = KAA_RSA_PUBLIC_KEY_LENGTH_MAX;

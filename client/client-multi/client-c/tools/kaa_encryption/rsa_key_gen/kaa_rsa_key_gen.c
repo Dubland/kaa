@@ -151,8 +151,7 @@ int sha1_to_base64(uint8_t *key, size_t length, uint8_t *base64, size_t base64_l
 
 int kaa_keys_store(uint8_t *public_key, size_t public_key_length,
                           uint8_t *private_key, size_t private_key_length)
-{
-    
+{ 
     FILE *fd = fopen(KAA_KEYS_STORAGE, "w");
     if (!fd) {
         return -1;

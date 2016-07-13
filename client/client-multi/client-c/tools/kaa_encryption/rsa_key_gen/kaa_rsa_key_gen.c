@@ -16,6 +16,22 @@
 
 #include <kaa_rsa_key_gen.h>
 
+/* File structure */
+#define GUARD_IFNDEF                    "#ifndef KAA_RSA_KEYS_H_\n"
+#define GUARD_DEF                       "#define KAA_RSA_KEYS_H_\n\n\n"
+#define PUBLIC_KEY_LEN                  "#define KAA_RSA_PUBLIC_KEY_LENGTH  %zu\n"
+#define PRIVATE_KEY_LEN                 "#define KAA_RSA_PRIVATE_KEY_LENGTH %zu\n\n\n"
+#define KAA_SHA1_PUB_LEN                "#define KAA_SHA1_PUB_LEN %zu\n"
+#define KAA_SHA1_PUB_BASE64_LEN         "#define KAA_SHA1_PUB_BASE64_LEN %zu\n\n\n"
+#define KEY_STARTS                      "{ "
+#define KEY_SEPARATOR                   ", "
+#define KEY_ENDS                        " };\n\n"
+#define KAA_RSA_PUBLIC_KEY              "uint8_t KAA_RSA_PUBLIC_KEY[] = "
+#define KAA_RSA_PRIVATE_KEY             "uint8_t KAA_RSA_PRIVATE_KEY[] = "
+#define KAA_SHA1_PUB                    "uint8_t KAA_SHA1_PUB[] = "
+#define KAA_SHA1_PUB_BASE64             "uint8_t KAA_SHA1_PUB_BASE64[] = "
+#define GUARD_ENDIF                     "#endif /* KAA_RSA_KEYS_H */\n"
+
 /* Endpoint's RSA Keys */
 
 endpoint_keys_t keys;
@@ -162,10 +178,10 @@ int kaa_keys_store(uint8_t *public_key, size_t public_key_length,
     fwrite(GUARD_IFNDEF, sizeof(GUARD_IFNDEF) - 1, 1, fd);
     fwrite(GUARD_DEF, sizeof(GUARD_DEF) - 1, 1, fd);
 
-    written = sprintf(buffer, PUBLIC_KEY_LEN, public_key_length);
+    written = snprintf(buffer, sizeof(PUBLIC_KEY_LEN) + 2, PUBLIC_KEY_LEN, public_key_length);
     fwrite(buffer, written, 1, fd);
 
-    written = sprintf(buffer, PRIVATE_KEY_LEN, private_key_length);
+    written = snprintf(buffer, sizeof(PRIVATE_KEY_LEN) + 3, PRIVATE_KEY_LEN, private_key_length);
     fwrite(buffer, written, 1, fd);
 
     /* Write public key */
@@ -186,10 +202,10 @@ int kaa_keys_store(uint8_t *public_key, size_t public_key_length,
         printf("Error while encoding base64");
     }
 
-    written = sprintf(buffer, KAA_SHA1_PUB_LEN, sizeof(sha1));
+    written = snprintf(buffer, sizeof(KAA_SHA1_PUB_LEN) + 2, KAA_SHA1_PUB_LEN, sizeof(sha1));
     fwrite(buffer, written, 1, fd);
 
-    written = sprintf(buffer, KAA_SHA1_PUB_BASE64_LEN, sha1_base64_len);
+    written = snprintf(buffer, sizeof(KAA_SHA1_PUB_BASE64_LEN) + 2, KAA_SHA1_PUB_BASE64_LEN, sha1_base64_len);
     fwrite(buffer, written, 1, fd);
 
     error = sha1_store(fd, sha1, sizeof(sha1), sha1_base64_buffer, sha1_base64_len);

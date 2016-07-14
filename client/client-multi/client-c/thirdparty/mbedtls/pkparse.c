@@ -80,7 +80,6 @@ int mbedtls_pk_load_file( const char *path, unsigned char **buf, size_t *n )
 
     if( ( f = fopen( path, "rb" ) ) == NULL )
         return( MBEDTLS_ERR_PK_FILE_IO_ERROR );
-
     fseek( f, 0, SEEK_END );
     if( ( size = ftell( f ) ) == -1 )
     {
@@ -111,7 +110,6 @@ int mbedtls_pk_load_file( const char *path, unsigned char **buf, size_t *n )
 
     if( strstr( (const char *) *buf, "-----BEGIN " ) != NULL )
         ++*n;
-
     return( 0 );
 }
 
@@ -1062,7 +1060,6 @@ int mbedtls_pk_parse_key( mbedtls_pk_context *pk,
 {
     int ret;
     const mbedtls_pk_info_t *pk_info;
-
 #if defined(MBEDTLS_PEM_PARSE_C)
     size_t len;
     mbedtls_pem_context pem;
@@ -1074,11 +1071,12 @@ int mbedtls_pk_parse_key( mbedtls_pk_context *pk,
     if( keylen == 0 || key[keylen - 1] != '\0' )
         ret = MBEDTLS_ERR_PEM_NO_HEADER_FOOTER_PRESENT;
     else
+{
         ret = mbedtls_pem_read_buffer( &pem,
                                "-----BEGIN RSA PRIVATE KEY-----",
                                "-----END RSA PRIVATE KEY-----",
                                key, pwd, pwdlen, &len );
-
+}
     if( ret == 0 )
     {
         if( ( pk_info = mbedtls_pk_info_from_type( MBEDTLS_PK_RSA ) ) == NULL )

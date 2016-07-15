@@ -64,15 +64,19 @@ void ext_get_endpoint_public_key(uint8_t **buffer, size_t *buffer_size)
 {
     if (!buffer || !buffer_size) {
         return;
-    }
-    uint8_t buff[512];
-    int key_length = mbedtls_pk_write_pubkey_der(&pk_context_, buff, KAA_RSA_PUBLIC_KEY_LENGTH_MAX);
-    if (key_length < 0) {
-        return;
+    int key_length;
+    static int initialization = false;
+    static uint8_t buff[KAA_RSA_PUBLIC_KEY_LENGTH_MAX];
+    if (!initialization)
+    {
+        key_length = mbedtls_pk_write_pubkey_der(&pk_pub_context, buff, sizeof(buff));
+        if (key_length < 0) {
+            return;
+	}
+        initialization = true;
     }
     *buffer = buff;
     *buffer_size = key_length;
-    }
 }
 
 static int rsa_encrypt(mbedtls_pk_context *pk, const uint8_t *input, size_t input_len, uint8_t *output)
@@ -186,8 +190,12 @@ kaa_error_t kaa_init_keys(void)
             return KAA_ERR_BADDATA;
 #endif
         }
-        if (mbedtls_pk_parse_public_keyfile(&pk_pub_context, KAA_PUBLIC_KEY_STORAGE)) {
+         if (mbedtls_pk_parse_public_keyfile(&pk_pub_context, KAA_PUBLIC_KEY_STORAGE)) {
+#ifdef KAA_RUNTIME_KEY_GENERATION
+		pk_pub_context = pk_context_;
+#else
             return KAA_ERR_BADDATA;
+#endif
         }
         initialized = true;
     }

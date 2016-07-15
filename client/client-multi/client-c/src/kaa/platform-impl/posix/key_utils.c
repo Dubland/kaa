@@ -64,6 +64,7 @@ void ext_get_endpoint_public_key(uint8_t **buffer, size_t *buffer_size)
 {
     if (!buffer || !buffer_size) {
         return;
+    }
     int key_length;
     static int initialization = false;
     static uint8_t buff[KAA_RSA_PUBLIC_KEY_LENGTH_MAX];

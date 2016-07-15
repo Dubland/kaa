@@ -274,7 +274,7 @@ add_subdirectory(Modules/doxygen)
 add_subdirectory(Modules/cppcheck)
 
 if(${KAA_PLATFORM} STREQUAL "x86-64")
-    option(KAA_RUNTIME_KEY_GENERATION "Enable RSA key generation at runtime" OFF)
+    option(KAA_RUNTIME_KEY_GENERATION "Enable RSA key generation at runtime" ON)
     if(${KAA_RUNTIME_KEY_GENERATION})
         add_definitions(-DKAA_RUNTIME_KEY_GENERATION)
     endif()

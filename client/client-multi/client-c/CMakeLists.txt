@@ -199,6 +199,8 @@ add_library(kaac ${KAA_SOURCE_FILES})
 target_include_directories(kaac PUBLIC ${KAA_INCLUDE_DIRS})
 target_link_libraries(kaac PRIVATE ${KAA_THIRDPARTY_LIBRARIES})
 
+add_dependencies(kaac kaa_rsa_keygen)
+
 message("BOOTSTRAP ENABLED")
 include(${CMAKE_CURRENT_LIST_DIR}/src/extensions/bootstrap/CMakeLists.txt)
 target_link_libraries(kaac PUBLIC extension_bootstrap)
@@ -273,7 +275,7 @@ add_subdirectory(Modules/doxygen)
 
 add_subdirectory(Modules/cppcheck)
 
-if(${KAA_PLATFORM} STREQUAL "x86-64")
+if(${KAA_PLATFORM} STREQUAL "posix")
     option(KAA_RUNTIME_KEY_GENERATION "Enable RSA key generation at runtime" ON)
     if(${KAA_RUNTIME_KEY_GENERATION})
         add_definitions(-DKAA_RUNTIME_KEY_GENERATION)

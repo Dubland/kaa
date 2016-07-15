@@ -182,11 +182,9 @@ kaa_error_t kaa_init_keys(void)
         if (mbedtls_pk_parse_keyfile(&pk_context_, KAA_PRIVATE_KEY_STORAGE, NULL)) {
 #ifdef KAA_RUNTIME_KEY_GENERATION
             if (rsa_genkey(&pk_context_)) {
-                printf("pls, help me\n")
-                return -1;dasdas
+                return -1;
             }
 #else
-            printf("Can`t read file \n");
             return KAA_ERR_BADDATA;
 #endif
         }
